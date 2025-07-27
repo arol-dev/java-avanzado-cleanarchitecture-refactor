@@ -1,25 +1,26 @@
 package dev.arol.petclinic.config;
 
-import dev.arol.petclinic.entity.Appointment;
-import dev.arol.petclinic.entity.Pet;
-import dev.arol.petclinic.repository.IAppointmentRepository;
-import dev.arol.petclinic.repository.IPetRepository;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import dev.arol.petclinic.application.port.out.AppointmentRepository;
+import dev.arol.petclinic.application.port.out.PetRepository;
+import dev.arol.petclinic.domain.model.Appointment;
+import dev.arol.petclinic.domain.model.Pet;
 
 @Component
 @Profile("inmemory")
 public class InMemoryDataLoader implements CommandLineRunner {
 
-    private final IPetRepository petRepository;
-    private final IAppointmentRepository appointmentRepository;
+    private final PetRepository petRepository;
+    private final AppointmentRepository appointmentRepository;
 
     @Autowired
-    public InMemoryDataLoader(IPetRepository petRepository, IAppointmentRepository appointmentRepository) {
+    public InMemoryDataLoader(PetRepository petRepository, AppointmentRepository appointmentRepository) {
         this.petRepository = petRepository;
         this.appointmentRepository = appointmentRepository;
     }
