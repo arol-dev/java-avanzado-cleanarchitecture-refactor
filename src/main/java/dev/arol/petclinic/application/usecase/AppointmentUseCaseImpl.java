@@ -25,7 +25,7 @@ public class AppointmentUseCaseImpl implements CreateAppointmentUseCase, GetAppo
 	    	appointment.validateForCreation();
 
 	    	if (!petRepository.existsById(appointment.getPetId())) {
-	            throw new IllegalArgumentException("La mascota con el ID " + appointment.getPetId() + " no existe");
+	            throw new IllegalArgumentException("Pet with ID " + appointment.getPetId() + " does not exist");
 	        }
 	        return appointmentRepository.save(appointment);
 	    }

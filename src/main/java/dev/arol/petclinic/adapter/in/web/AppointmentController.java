@@ -29,9 +29,13 @@ public class AppointmentController {
     }
     
     @PostMapping
-    public ResponseEntity<Appointment> createAppointment(@Valid @RequestBody Appointment appointment) {
-        Appointment createdAppointment = createAppointmentUseCase.createAppointment(appointment);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdAppointment);
+    public ResponseEntity<?> createAppointment(@Valid @RequestBody Appointment appointment) {
+    	 try {
+             Appointment createdAppointment = createAppointmentUseCase.createAppointment(appointment);
+             return ResponseEntity.status(HttpStatus.CREATED).body(createdAppointment);
+	    } catch (IllegalArgumentException e) {
+	        return ResponseEntity.badRequest().body(e.getMessage());
+	    }
     }
     
     @GetMapping
