@@ -1,36 +1,48 @@
-package dev.arol.petclinic.entity;
+package dev.arol.petclinic.adapter.out.persistence;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import dev.arol.petclinic.adapter.out.persistence.mapper.AppointmentMapper;
+import dev.arol.petclinic.domain.model.Appointment;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.mapstruct.factory.Mappers;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "appointments")
-public class Appointment {
+public class AppointmentJpaEntity {
+
+    private static final AppointmentMapper MAPPER = Mappers.getMapper(AppointmentMapper.class);
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     @Column(name = "pet_id", nullable = false)
-    @NotNull(message = "Pet ID is required")
     private Long petId;
-    
     @Column(nullable = false)
-    @NotNull(message = "Appointment date is required")
     private LocalDateTime date;
-    
     @Column(nullable = false)
     private String reason;
 
-    public Appointment() {}
+    public AppointmentJpaEntity() {
+    }
 
-    public Appointment(Long id, Long petId, LocalDateTime date, String reason) {
+    public AppointmentJpaEntity(Long id, Long petId, LocalDateTime date, String reason) {
         this.id = id;
         this.petId = petId;
         this.date = date;
         this.reason = reason;
     }
 
+    public static AppointmentJpaEntity fromDomain(Appointment appointment) {
+        return MAPPER.toEntity(appointment);
+    }
+
+    //<editor-fold desc="getters & setters">
     public Long getId() {
         return id;
     }
@@ -58,8 +70,13 @@ public class Appointment {
     public String getReason() {
         return reason;
     }
+    //</editor-fold>
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public Appointment toDomain() {
+        return MAPPER.toDomain(this);
     }
 }
