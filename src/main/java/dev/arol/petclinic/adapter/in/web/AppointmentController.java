@@ -1,0 +1,38 @@
+package dev.arol.petclinic.adapter.in.web;
+
+import dev.arol.petclinic.application.port.in.CreateAppointmentUseCase;
+import dev.arol.petclinic.application.port.in.GetAppointmentsUseCase;
+import dev.arol.petclinic.domain.model.Appointment;
+import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/appointments")
+public class AppointmentController {
+    
+    private final CreateAppointmentUseCase createAppointmentUseCase;
+    private final GetAppointmentsUseCase getAppointmentsUseCase;
+
+    @Autowired
+    public AppointmentController(CreateAppointmentUseCase createAppointmentUseCase, GetAppointmentsUseCase getAppointmentsUseCase) {
+        this.createAppointmentUseCase = createAppointmentUseCase;
+        this.getAppointmentsUseCase = getAppointmentsUseCase;
+    }
+
+    @PostMapping
+    public ResponseEntity<Appointment> createAppointment(@Valid @RequestBody Appointment appointment) {
+        Appointment createdAppointment = createAppointmentUseCase.createAppointment(appointment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdAppointment);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Appointment>> getAllAppointments() {
+        List<Appointment> appointments = getAppointmentsUseCase.getAllAppointments();
+        return ResponseEntity.ok(appointments);
+    }
+}
