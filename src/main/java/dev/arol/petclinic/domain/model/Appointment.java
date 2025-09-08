@@ -1,25 +1,16 @@
-package dev.arol.petclinic.entity;
+package dev.arol.petclinic.domain.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "appointments")
 public class Appointment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "pet_id", nullable = false)
-    @NotNull(message = "Pet ID is required")
     private Long petId;
     
-    @Column(nullable = false)
-    @NotNull(message = "Appointment date is required")
     private LocalDateTime date;
-    
-    @Column(nullable = false)
+
     private String reason;
 
     public Appointment() {}
@@ -61,5 +52,30 @@ public class Appointment {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public void validateDate() {
+        if (date == null || date.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("La fecha de la cita debe ser futura");
+        }
+    }
+
+    public boolean isUrgent() {
+        return reason != null && reason.toLowerCase().contains("urgente");
+    }
+
+    public boolean isWeekendAppointment() {
+        if (date == null) return false;
+        var day = date.getDayOfWeek();
+        return day == java.time.DayOfWeek.SATURDAY || day == java.time.DayOfWeek.SUNDAY;
+    }
+
+    public boolean isSameDay(LocalDateTime otherDate) {
+        return date != null && otherDate != null &&
+                date.toLocalDate().equals(otherDate.toLocalDate());
+    }
+
+    public String getSummary() {
+        return "Cita para mascota ID " + petId + " el " + date + ": " + reason;
     }
 }
