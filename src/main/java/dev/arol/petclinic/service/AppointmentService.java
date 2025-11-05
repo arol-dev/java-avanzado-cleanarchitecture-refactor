@@ -1,6 +1,6 @@
 package dev.arol.petclinic.service;
 
-import dev.arol.petclinic.entity.Appointment;
+import dev.arol.petclinic.domain.model.Appointment;
 import dev.arol.petclinic.repository.IAppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

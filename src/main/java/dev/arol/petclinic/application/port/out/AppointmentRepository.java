@@ -1,15 +1,14 @@
-package dev.arol.petclinic.repository;
+package dev.arol.petclinic.application.port.out;
 
 import dev.arol.petclinic.domain.model.Appointment;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IAppointmentRepository {
+public interface AppointmentRepository {
     Appointment save(Appointment appointment);
-    Optional<Appointment> findById(Long id);
     List<Appointment> findAll();
+    Optional<Appointment> findById(Long id);
     boolean existsById(Long id);
-    void deleteById(Long id);
-    long count();
+
 }

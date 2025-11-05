@@ -1,6 +1,6 @@
 package dev.arol.petclinic.controller;
 
-import dev.arol.petclinic.entity.Pet;
+import dev.arol.petclinic.domain.model.Pet;
 import dev.arol.petclinic.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

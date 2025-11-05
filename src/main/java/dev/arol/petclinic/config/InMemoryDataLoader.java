@@ -1,7 +1,7 @@
 package dev.arol.petclinic.config;
 
-import dev.arol.petclinic.entity.Appointment;
-import dev.arol.petclinic.entity.Pet;
+import dev.arol.petclinic.domain.model.Appointment;
+import dev.arol.petclinic.domain.model.Pet;
 import dev.arol.petclinic.repository.IAppointmentRepository;
 import dev.arol.petclinic.repository.IPetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
