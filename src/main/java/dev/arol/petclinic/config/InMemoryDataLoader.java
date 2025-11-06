@@ -1,20 +1,18 @@
 package dev.arol.petclinic.config;
 
-import dev.arol.petclinic.entity.Appointment;
-import dev.arol.petclinic.entity.Pet;
-import dev.arol.petclinic.repository.IAppointmentRepository;
-import dev.arol.petclinic.repository.IPetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Component
 @Profile("inmemory")
 public class InMemoryDataLoader implements CommandLineRunner {
 
+    @Override
+    public void run(String... args) throws Exception {
+        // TODO Auto-generated method stub
+    }
+/* 
     private final IPetRepository petRepository;
     private final IAppointmentRepository appointmentRepository;
 
@@ -51,5 +49,5 @@ public class InMemoryDataLoader implements CommandLineRunner {
         appointmentRepository.save(new Appointment(null, pet7.getId(), LocalDateTime.of(2024, 2, 26, 13, 0), "Health Check"));
 
         System.out.println("Loaded sample data: " + petRepository.count() + " pets, " + appointmentRepository.count() + " appointments");
-    }
+    }*/
 }
