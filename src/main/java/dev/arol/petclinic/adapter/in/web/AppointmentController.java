@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/appointment")
+@RequestMapping("/appointments")
 public class AppointmentController {
     private final AppointmentUseCase.CreateAppointmentUseCase createAppointmentUsecase;
     private final AppointmentUseCase.GetAppointmentsUseCase getAppointmentsUseCase;
