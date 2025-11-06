@@ -1,25 +1,13 @@
-package dev.arol.petclinic.entity;
+package dev.arol.petclinic.domain.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "pets")
 public class Pet {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false)
-    @NotBlank(message = "Pet name is required")
     private String name;
     
-    @Column(nullable = false)
-    @NotBlank(message = "Pet species is required")
     private String species;
     
-    @Column(name = "owner_name", nullable = false)
-    @NotBlank(message = "Owner name is required")
     private String ownerName;
 
     public Pet() {}
@@ -61,5 +49,19 @@ public class Pet {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public boolean isValidForAppointment() {
+        return name != null && !name.trim().isEmpty() 
+               && species != null && !species.trim().isEmpty();
+    }
+    
+    public void validateForCreation() {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre de la mascota es obligatorio");
+        }
+        if (species == null || species.trim().isEmpty()) {
+            throw new IllegalArgumentException("La especie de la mascota es obligatoria");
+        }
     }
 }
