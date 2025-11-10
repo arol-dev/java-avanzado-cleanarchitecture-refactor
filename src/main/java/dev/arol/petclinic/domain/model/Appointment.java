@@ -1,25 +1,10 @@
-package dev.arol.petclinic.entity;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+package dev.arol.petclinic.domain.model;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "appointments")
 public class Appointment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(name = "pet_id", nullable = false)
-    @NotNull(message = "Pet ID is required")
     private Long petId;
-    
-    @Column(nullable = false)
-    @NotNull(message = "Appointment date is required")
     private LocalDateTime date;
-    
-    @Column(nullable = false)
     private String reason;
 
     public Appointment() {}
@@ -61,5 +46,17 @@ public class Appointment {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public boolean canPlanAppointment(){
+        return petId != null && date != null;
+    }
+    public void validateAppointment(){
+        if (petId == null){
+            throw new IllegalArgumentException("Se debe especificar una mascota para poder pedir una cita");
+        }
+        if (date.isBefore(LocalDateTime.now())){
+            throw new IllegalArgumentException("La hora de la cita debe ser posterior a la hora actual");
+        }
     }
 }
