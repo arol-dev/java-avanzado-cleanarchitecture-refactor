@@ -1,30 +1,27 @@
-package dev.arol.petclinic.entity;
+package dev.arol.petclinic.adapter.out.persistence.pet;
 
+import dev.arol.petclinic.domain.model.Pet;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "pets")
-public class Pet {
+public class PetJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false)
-    @NotBlank(message = "Pet name is required")
     private String name;
-    
+
     @Column(nullable = false)
-    @NotBlank(message = "Pet species is required")
     private String species;
-    
+
     @Column(name = "owner_name", nullable = false)
-    @NotBlank(message = "Owner name is required")
     private String ownerName;
 
-    public Pet() {}
+    public PetJpaEntity() {}
 
-    public Pet(Long id, String name, String species, String ownerName) {
+    public PetJpaEntity(Long id, String name, String species, String ownerName) {
         this.id = id;
         this.name = name;
         this.species = species;
@@ -61,5 +58,14 @@ public class Pet {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public Pet toDomain() {
+        return new Pet(id, name, species, ownerName);
+    }
+
+    public static PetJpaEntity fromDomain(Pet pet) {
+        return new PetJpaEntity(pet.getId(), pet.getName(),
+                pet.getSpecies(), pet.getOwnerName());
     }
 }

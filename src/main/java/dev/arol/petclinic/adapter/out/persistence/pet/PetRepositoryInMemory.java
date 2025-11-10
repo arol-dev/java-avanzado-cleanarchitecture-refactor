@@ -1,6 +1,7 @@
-package dev.arol.petclinic.repository;
+package dev.arol.petclinic.adapter.out.persistence.pet;
 
-import dev.arol.petclinic.entity.Pet;
+import dev.arol.petclinic.application.port.out.PetRepository;
+import dev.arol.petclinic.domain.model.Pet;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -11,23 +12,19 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 @Profile("inmemory")
-public class InMemoryPetRepository implements IPetRepository {
-    
+public class PetRepositoryInMemory implements PetRepository {
+
     private final ConcurrentHashMap<Long, Pet> pets = new ConcurrentHashMap<>();
     private final AtomicLong idGenerator = new AtomicLong(1);
 
     @Override
     public Pet save(Pet pet) {
         if (pet.getId() == null) {
-            pet.setId(idGenerator.getAndIncrement());
+            pet = new Pet(idGenerator.getAndIncrement(),
+                    pet.getName(), pet.getSpecies(), pet.getOwnerName());
         }
         pets.put(pet.getId(), pet);
         return pet;
-    }
-
-    @Override
-    public Optional<Pet> findById(Long id) {
-        return Optional.ofNullable(pets.get(id));
     }
 
     @Override
@@ -36,17 +33,12 @@ public class InMemoryPetRepository implements IPetRepository {
     }
 
     @Override
+    public Optional<Pet> findById(Long id) {
+        return Optional.ofNullable(pets.get(id));
+    }
+
+    @Override
     public boolean existsById(Long id) {
         return pets.containsKey(id);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        pets.remove(id);
-    }
-
-    @Override
-    public long count() {
-        return pets.size();
     }
 }
